@@ -6,6 +6,8 @@ pub enum FromToError {
     Io(std::io::Error),
     SerdeJsonError(serde_json::error::Error),
     SerdeYamlError(serde_yaml::Error),
+    TomlDeError(toml::de::Error),
+    TomlSerError(toml::ser::Error),
 }
 
 impl FromToError {
@@ -21,6 +23,8 @@ impl std::error::Error for FromToError {
             FromToError::Io(ref err) => err.description(),
             FromToError::SerdeJsonError(ref err) => err.description(),
             FromToError::SerdeYamlError(ref err) => err.description(),
+            FromToError::TomlDeError(ref err) => err.description(),
+            FromToError::TomlSerError(ref err) => err.description(),
         }
     }
 
@@ -29,6 +33,8 @@ impl std::error::Error for FromToError {
             FromToError::Io(ref err) => Some(err),
             FromToError::SerdeJsonError(ref err) => Some(err),
             FromToError::SerdeYamlError(ref err) => Some(err),
+            FromToError::TomlDeError(ref err) => Some(err),
+            FromToError::TomlSerError(ref err) => Some(err),
         }
     }
 }
@@ -54,5 +60,17 @@ impl From<serde_json::error::Error> for FromToError {
 impl From<serde_yaml::Error> for FromToError {
     fn from(err: serde_yaml::Error) -> Self {
         FromToError::SerdeYamlError(err)
+    }
+}
+
+impl From<toml::de::Error> for FromToError {
+    fn from(err: toml::de::Error) -> Self {
+        FromToError::TomlDeError(err)
+    }
+}
+
+impl From<toml::ser::Error> for FromToError {
+    fn from(err: toml::ser::Error) -> Self {
+        FromToError::TomlSerError(err)
     }
 }

@@ -1,5 +1,5 @@
 [package]
-name = "derive_from_to"
+name = "derive_from_as"
 version = "0.1.0"
 authors = ["sreeise"]
 edition = "2018"
@@ -14,4 +14,5 @@ serde_yaml = "0.8.9"
 serde_derive = "1.0.88"
 syn = "0.15.29"
 quote = "0.6.11"
-from_to_traits = { path = "../from_to_traits" }
+toml = "0.5"
+from_as_file = { path = "../from_as_file" }
