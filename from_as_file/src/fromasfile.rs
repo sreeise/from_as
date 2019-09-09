@@ -1,20 +1,18 @@
 use std::error::Error;
 use std::path::Path;
 
-pub trait FromFile<RHS = Self>
-where
-    for<'de> Self: serde::Deserialize<'de>,
-{
+pub trait FromFile<RHS = Self> {
     type Error: Error;
 
-    fn from_file<P: AsRef<Path>>(path: P) -> Result<Self, Self::Error>;
+    fn from_file<P: AsRef<Path>>(path: P) -> Result<RHS, Self::Error>
+    where
+        for<'de> Self: serde::Deserialize<'de>;
 }
 
-pub trait AsFile<RHS = Self>
-where
-    Self: serde::Serialize,
-{
+pub trait AsFile {
     type Error: Error;
 
-    fn as_file<P: AsRef<Path>>(&self, path: P) -> Result<(), Self::Error>;
+    fn as_file<P: AsRef<Path>>(&self, path: P) -> Result<(), Self::Error>
+    where
+        Self: serde::Serialize;
 }

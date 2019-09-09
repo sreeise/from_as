@@ -18,7 +18,10 @@ pub fn derive_from_file(input: proc_macro::TokenStream) -> proc_macro::TokenStre
         impl #impl_generics from_as_file::FromFile for #name #ty_generics #where_clause {
             type Error = from_as_file::FromToError;
 
-            fn from_file<P: AsRef<std::path::Path>>(path: P) -> std::result::Result<Self, Self::Error> {
+            fn from_file<P: AsRef<std::path::Path>>(path: P) -> std::result::Result<Self, Self::Error>
+                where
+                    for<'de> Self: serde::Deserialize<'de>
+            {
                 if let Some(ext) = path.as_ref().to_path_buf().extension() {
                     let ext = from_as_file::Ext::try_from(ext)?;
                     let mut f = std::fs::File::open(path)?;
@@ -63,7 +66,10 @@ pub fn derive_as_file(input: proc_macro::TokenStream) -> proc_macro::TokenStream
         impl #impl_generics from_as_file::AsFile for #name #ty_generics #where_clause {
             type Error = from_as_file::FromToError;
 
-            fn as_file<P: AsRef<std::path::Path>>(&self, path: P) -> Result<(), Self::Error> {
+            fn as_file<P: AsRef<std::path::Path>>(&self, path: P) -> Result<(), Self::Error>
+                where
+                    Self: serde::Serialize
+            {
                 if let Some(ext) = path.as_ref().to_path_buf().extension() {
                     let ext = from_as_file::Ext::try_from(ext)?;
                     let mut file = std::fs::OpenOptions::new()
