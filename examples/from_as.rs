@@ -1,6 +1,6 @@
 #[macro_use]
 extern crate serde_derive;
-use from_to::*;
+use from_as::*;
 
 #[derive(Debug, Serialize, Deserialize, AsFile, FromFile)]
 struct Field {

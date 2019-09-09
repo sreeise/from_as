@@ -1,7 +1,7 @@
 #[macro_use]
 extern crate serde_derive;
 
-use from_to::*;
+use from_as::*;
 use std::convert::TryFrom;
 use std::env;
 

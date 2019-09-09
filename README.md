@@ -1,6 +1,34 @@
 [![Build Status](https://travis-ci.org/sreeise/from_to.svg?branch=master)](https://travis-ci.org/sreeise/from_to)
 
-# from_to
-Rust trait and derive macro for reading and writing files for types that implement serde.
+# from_as
+Rust traits and derive macros for reading and writing files for types that implement serde.
 
-Currently, the only files types that can be used are json and yaml. 
+The from_as_file crate provides to traits: FromFile and AsFile. FromFile is used for getting
+types from a file. AsFile is used for writing a types to a file.
+
+The derive_from_as crate provides derive macros for these traits with the same names.
+
+Currently, the only files types that can be used are json, yaml, and toml. 
+
+### Example
+
+    #[macro_use]
+    extern crate serde_derive;
+    use from_as::*;
+
+    #[derive(AsFile, Debug, Deserialize, FromFile, Serialize)]
+    struct Attribute {
+        name: String,
+    }
+    
+    fn main() {
+        let attr = Attribute { 
+            name: "attr_name".into()
+        }
+        
+        // Write to the example directory.
+        attr.as_file("./examples/attr.json").unwrap();
+        
+        let attr = Attribute::from_file("./examples/attr.json").unwrap();
+        println!("{:#?}", attr);
+    }
