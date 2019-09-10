@@ -4,8 +4,16 @@ extern crate quote;
 extern crate serde_derive;
 
 use quote::quote;
-use syn::parse_macro_input;
-use syn::DeriveInput;
+use syn::{parse_macro_input, parse_quote, DeriveInput, GenericParam, Generics};
+
+fn add_ser_bound(mut generics: Generics) -> Generics {
+    for param in &mut generics.params {
+        if let GenericParam::Type(ref mut type_param) = *param {
+            type_param.bounds.push(parse_quote!(serde::Serialize));
+        }
+    }
+    generics
+}
 
 #[proc_macro_derive(FromFile)]
 pub fn derive_from_file(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
@@ -59,7 +67,7 @@ pub fn derive_from_file(input: proc_macro::TokenStream) -> proc_macro::TokenStre
 pub fn derive_as_file(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = parse_macro_input!(input as DeriveInput);
     let name = &input.ident;
-    let generics = &input.generics;
+    let generics = add_ser_bound(input.generics);
     let (impl_generics, ty_generics, where_clause) = generics.split_for_impl();
 
     let expanded = quote! {
@@ -67,8 +75,6 @@ pub fn derive_as_file(input: proc_macro::TokenStream) -> proc_macro::TokenStream
             type Error = from_as_file::FromToError;
 
             fn as_file<P: AsRef<std::path::Path>>(&self, path: P) -> Result<(), Self::Error>
-                where
-                    Self: serde::Serialize
             {
                 if let Some(ext) = path.as_ref().to_path_buf().extension() {
                     let ext = from_as_file::Ext::try_from(ext)?;
