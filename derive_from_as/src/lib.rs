@@ -24,7 +24,7 @@ pub fn derive_from_file(input: proc_macro::TokenStream) -> proc_macro::TokenStre
 
     let expanded = quote! {
         impl #impl_generics from_as_file::FromFile for #name #ty_generics #where_clause {
-            type Error = from_as_file::FromToError;
+            type Error = from_as_file::FromAsError;
 
             fn from_file<P: AsRef<std::path::Path>>(path: P) -> std::result::Result<Self, Self::Error>
                 where
@@ -51,7 +51,7 @@ pub fn derive_from_file(input: proc_macro::TokenStream) -> proc_macro::TokenStre
                         }
                     }
                 } else {
-                    Err(from_as_file::FromToError::Io(
+                    Err(from_as_file::FromAsError::Io(
                         std::io::Error::new(std::io::ErrorKind::InvalidData,
                         "Could not determine file type - either the given path is a directory or does not have a valid extension"
                     )))
@@ -72,7 +72,7 @@ pub fn derive_as_file(input: proc_macro::TokenStream) -> proc_macro::TokenStream
 
     let expanded = quote! {
         impl #impl_generics from_as_file::AsFile for #name #ty_generics #where_clause {
-            type Error = from_as_file::FromToError;
+            type Error = from_as_file::FromAsError;
 
             fn as_file<P: AsRef<std::path::Path>>(&self, path: P) -> Result<(), Self::Error>
             {
@@ -101,7 +101,40 @@ pub fn derive_as_file(input: proc_macro::TokenStream) -> proc_macro::TokenStream
                     file.sync_all()?;
                     Ok(())
                 } else {
-                    Err(from_as_file::FromToError::Io(
+                    Err(from_as_file::FromAsError::Io(
+                        std::io::Error::new(std::io::ErrorKind::InvalidData,
+                        "Could not determine file type - either the given path is a directory or does not have a valid extension"
+                    )))
+                }
+            }
+
+             fn as_file_pretty<P: AsRef<std::path::Path>>(&self, path: P) -> Result<(), Self::Error> {
+                if let Some(ext) = path.as_ref().to_path_buf().extension() {
+                        let ext = from_as_file::Ext::try_from(ext)?;
+                        let mut file = std::fs::OpenOptions::new()
+                            .create(true)
+                            .write(true)
+                            .open(&path)?;
+
+                        match ext {
+                            from_as_file::Ext::Yaml => {
+                                let serialized = serde_yaml::to_string(&self)?;
+                                file.write_all(serialized.as_bytes())?;
+                            }
+                            from_as_file::Ext::Json => {
+                                let serialized = serde_json::to_string_pretty(&self)?;
+                                file.write_all(serialized.as_bytes())?;
+                            }
+                            from_as_file::Ext::Toml => {
+                                let serialized = toml::to_string_pretty(&self)?;
+                                file.write_all(serialized.as_bytes())?;
+                            }
+                        };
+
+                    file.sync_all()?;
+                    Ok(())
+                } else {
+                    Err(from_as_file::FromAsError::Io(
                         std::io::Error::new(std::io::ErrorKind::InvalidData,
                         "Could not determine file type - either the given path is a directory or does not have a valid extension"
                     )))

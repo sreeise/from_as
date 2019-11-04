@@ -15,4 +15,8 @@ pub trait AsFile {
     fn as_file<P: AsRef<Path>>(&self, path: P) -> Result<(), Self::Error>
     where
         Self: serde::Serialize;
+
+    fn as_file_pretty<P: AsRef<Path>>(&self, path: P) -> Result<(), Self::Error>
+    where
+        Self: serde::Serialize;
 }

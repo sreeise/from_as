@@ -2,7 +2,7 @@ use std::ffi::OsStr;
 use std::io::ErrorKind;
 
 #[derive(Debug)]
-pub enum FromToError {
+pub enum FromAsError {
     Io(std::io::Error),
     SerdeJsonError(serde_json::error::Error),
     SerdeYamlError(serde_yaml::Error),
@@ -10,67 +10,67 @@ pub enum FromToError {
     TomlSerError(toml::ser::Error),
 }
 
-impl FromToError {
-    pub fn invalid_extension(ext: &OsStr) -> FromToError {
+impl FromAsError {
+    pub fn invalid_extension(ext: &OsStr) -> FromAsError {
         let s = format!("Expected json or yaml extension, got: {:#?}", ext);
-        FromToError::Io(std::io::Error::new(ErrorKind::InvalidData, s))
+        FromAsError::Io(std::io::Error::new(ErrorKind::InvalidData, s))
     }
 }
 
-impl std::error::Error for FromToError {
+impl std::error::Error for FromAsError {
     fn description(&self) -> &str {
         match *self {
-            FromToError::Io(ref err) => err.description(),
-            FromToError::SerdeJsonError(ref err) => err.description(),
-            FromToError::SerdeYamlError(ref err) => err.description(),
-            FromToError::TomlDeError(ref err) => err.description(),
-            FromToError::TomlSerError(ref err) => err.description(),
+            FromAsError::Io(ref err) => err.description(),
+            FromAsError::SerdeJsonError(ref err) => err.description(),
+            FromAsError::SerdeYamlError(ref err) => err.description(),
+            FromAsError::TomlDeError(ref err) => err.description(),
+            FromAsError::TomlSerError(ref err) => err.description(),
         }
     }
 
     fn source<'a>(&'a self) -> Option<&(dyn std::error::Error + 'static)> {
         match *self {
-            FromToError::Io(ref err) => Some(err),
-            FromToError::SerdeJsonError(ref err) => Some(err),
-            FromToError::SerdeYamlError(ref err) => Some(err),
-            FromToError::TomlDeError(ref err) => Some(err),
-            FromToError::TomlSerError(ref err) => Some(err),
+            FromAsError::Io(ref err) => Some(err),
+            FromAsError::SerdeJsonError(ref err) => Some(err),
+            FromAsError::SerdeYamlError(ref err) => Some(err),
+            FromAsError::TomlDeError(ref err) => Some(err),
+            FromAsError::TomlSerError(ref err) => Some(err),
         }
     }
 }
 
-impl std::fmt::Display for FromToError {
+impl std::fmt::Display for FromAsError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "\nError Code: {:#?}", &self)
     }
 }
 
-impl From<std::io::Error> for FromToError {
+impl From<std::io::Error> for FromAsError {
     fn from(err: std::io::Error) -> Self {
-        FromToError::Io(err)
+        FromAsError::Io(err)
     }
 }
 
-impl From<serde_json::error::Error> for FromToError {
+impl From<serde_json::error::Error> for FromAsError {
     fn from(err: serde_json::error::Error) -> Self {
-        FromToError::SerdeJsonError(err)
+        FromAsError::SerdeJsonError(err)
     }
 }
 
-impl From<serde_yaml::Error> for FromToError {
+impl From<serde_yaml::Error> for FromAsError {
     fn from(err: serde_yaml::Error) -> Self {
-        FromToError::SerdeYamlError(err)
+        FromAsError::SerdeYamlError(err)
     }
 }
 
-impl From<toml::de::Error> for FromToError {
+impl From<toml::de::Error> for FromAsError {
     fn from(err: toml::de::Error) -> Self {
-        FromToError::TomlDeError(err)
+        FromAsError::TomlDeError(err)
     }
 }
 
-impl From<toml::ser::Error> for FromToError {
+impl From<toml::ser::Error> for FromAsError {
     fn from(err: toml::ser::Error) -> Self {
-        FromToError::TomlSerError(err)
+        FromAsError::TomlSerError(err)
     }
 }

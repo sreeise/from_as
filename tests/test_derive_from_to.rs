@@ -41,6 +41,12 @@ pub fn test_derive_json() {
     let field_from_json = Field::from_file(file).unwrap();
     assert_eq!(field_from_json.name, "field");
     clean_up(file);
+
+    let field = Field::new("field");
+    field.as_file_pretty(file).unwrap();
+    let field_from_json = Field::from_file(file).unwrap();
+    assert_eq!(field_from_json.name, "field");
+    clean_up(file);
 }
 
 #[test]
@@ -51,6 +57,12 @@ pub fn test_derive_yaml() {
     let field_from_json = Field::from_file(file).unwrap();
     assert_eq!(field_from_json.name, "field");
     clean_up(file);
+
+    let field = Field::new("field");
+    field.as_file_pretty(file).unwrap();
+    let field_from_json = Field::from_file(file).unwrap();
+    assert_eq!(field_from_json.name, "field");
+    clean_up(file);
 }
 
 #[test]
@@ -58,6 +70,12 @@ pub fn test_derive_toml() {
     let file = "./tests/field.toml";
     let field = Field::new("field");
     field.as_file(file).unwrap();
+    let field_from_json = Field::from_file(file).unwrap();
+    assert_eq!(field_from_json.name, "field");
+    clean_up(file);
+
+    let field = Field::new("field");
+    field.as_file_pretty(file).unwrap();
     let field_from_json = Field::from_file(file).unwrap();
     assert_eq!(field_from_json.name, "field");
     clean_up(file);
@@ -86,6 +104,23 @@ fn test_generics() {
         Collection::from_file("./tests/collection.toml").unwrap();
     collection.push(Field::new("field"));
     collection.as_file("./tests/collection.json").unwrap();
+    let mut collection: Collection<Field> =
+        Collection::from_file("./tests/collection.json").unwrap();
+    let field = collection.pop().unwrap();
+    assert_eq!(field.name, "field".to_string());
+    clean_up("./tests/collection.toml");
+    clean_up("./tests/collection.json");
+
+    let collection: Collection<Field> = Collection { vec: Vec::new() };
+    collection
+        .as_file_pretty("./tests/collection.toml")
+        .unwrap();
+    let mut collection: Collection<Field> =
+        Collection::from_file("./tests/collection.toml").unwrap();
+    collection.push(Field::new("field"));
+    collection
+        .as_file_pretty("./tests/collection.json")
+        .unwrap();
     let mut collection: Collection<Field> =
         Collection::from_file("./tests/collection.json").unwrap();
     let field = collection.pop().unwrap();
@@ -133,6 +168,13 @@ impl<T> Value<T> {
 fn test_multi_generic() {
     let multi = MultiGeneric::new(String::from("t"), String::from("key"), 3);
     multi.as_file("./tests/multi.toml").unwrap();
+    let mut multi: MultiGeneric<String, String, usize> =
+        MultiGeneric::from_file("./tests/multi.toml").unwrap();
+    assert_eq!(multi.pop(), Some(String::from("t")));
+    clean_up("./tests/multi.toml");
+
+    let multi = MultiGeneric::new(String::from("t"), String::from("key"), 3);
+    multi.as_file_pretty("./tests/multi.toml").unwrap();
     let mut multi: MultiGeneric<String, String, usize> =
         MultiGeneric::from_file("./tests/multi.toml").unwrap();
     assert_eq!(multi.pop(), Some(String::from("t")));
