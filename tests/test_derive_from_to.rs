@@ -1,11 +1,12 @@
 #[macro_use]
-extern crate serde_derive;
-
+extern crate serde;
 use from_as::*;
 use std::collections::HashMap;
 use std::convert::TryFrom;
 use std::env;
 use std::hash::Hash;
+use std::io::Read;
+use std::io::Write;
 
 #[derive(Debug, Serialize, Deserialize, FromFile, AsFile)]
 struct Field {
