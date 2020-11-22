@@ -1,7 +1,6 @@
 #![recursion_limit = "256"]
 extern crate proc_macro;
 extern crate quote;
-extern crate serde_derive;
 
 use quote::quote;
 use syn::{parse_macro_input, parse_quote, DeriveInput, GenericParam, Generics};

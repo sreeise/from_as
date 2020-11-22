@@ -1,6 +1,9 @@
-#[macro_use]
-extern crate serde_derive;
 use from_as::*;
+use std::convert::TryFrom;
+use std::io::Read;
+use std::io::Write;
+#[macro_use]
+extern crate serde;
 
 #[derive(Debug, Serialize, Deserialize, AsFile, FromFile)]
 struct Field {

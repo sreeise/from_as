@@ -6,6 +6,3 @@ pub use error::FromAsError;
 pub use ext::Ext;
 pub use fromasfile::AsFile;
 pub use fromasfile::FromFile;
-pub use std::convert::TryFrom;
-pub use std::io::Read;
-pub use std::io::Write;

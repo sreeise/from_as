@@ -18,16 +18,6 @@ impl FromAsError {
 }
 
 impl std::error::Error for FromAsError {
-    fn description(&self) -> &str {
-        match *self {
-            FromAsError::Io(ref err) => err.description(),
-            FromAsError::SerdeJsonError(ref err) => err.description(),
-            FromAsError::SerdeYamlError(ref err) => err.description(),
-            FromAsError::TomlDeError(ref err) => err.description(),
-            FromAsError::TomlSerError(ref err) => err.description(),
-        }
-    }
-
     fn source<'a>(&'a self) -> Option<&(dyn std::error::Error + 'static)> {
         match *self {
             FromAsError::Io(ref err) => Some(err),
