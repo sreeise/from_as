@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/sreeise/from_as.svg?branch=master)](https://travis-ci.org/sreeise/from_to)
+[![Build Status](https://travis-ci.com/sreeise/from_as.svg?branch=master)](https://travis-ci.com/sreeise/from_as)
 
 # from_as_file
 Rust traits for reading and writing files for types that implement serde.
