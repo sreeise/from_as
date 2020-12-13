@@ -3,7 +3,7 @@
 # from_as
 Rust traits and derive macros for reading and writing files for types that implement serde.
 
-The from_as_file crate provides to traits: FromFile and AsFile. FromFile is used for getting
+The from_as_file crate provides two traits: FromFile and AsFile. FromFile is used for getting
 types from a file. AsFile is used for writing a types to a file.
 
 The derive_from_as crate provides derive macros for these traits with the same names.
