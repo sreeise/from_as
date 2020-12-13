@@ -1,14 +1,14 @@
 [![Build Status](https://travis-ci.com/sreeise/from_as.svg?branch=master)](https://travis-ci.org/sreeise/from_to)
 
-# from_as
-Rust traits and derive macros for reading and writing files for types that implement serde.
+# from_as_file
+Rust traits for reading and writing files for types that implement serde.
 
-The from_as_file crate provides to traits: FromFile and AsFile. FromFile is used for getting
+The from_as_file crate provides two traits: FromFile and AsFile. FromFile is used for getting
 types from a file. AsFile is used for writing a types to a file.
 
 The derive_from_as crate provides derive macros for these traits with the same names.
 
-Currently, the only files types that can be used are json, yaml, and toml. 
+Currently, the only files types that can be used are json, yaml, and toml.
 
 ### Example
 

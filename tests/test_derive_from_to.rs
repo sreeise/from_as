@@ -5,8 +5,7 @@ use std::collections::HashMap;
 use std::convert::TryFrom;
 use std::env;
 use std::hash::Hash;
-use std::io::Read;
-use std::io::Write;
+use std::io::{Read, Write};
 
 #[derive(Debug, Serialize, Deserialize, FromFile, AsFile)]
 struct Field {

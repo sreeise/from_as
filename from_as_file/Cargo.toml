@@ -3,6 +3,10 @@ name = "from_as_file"
 version = "0.1.0"
 authors = ["sreeise"]
 edition = "2018"
+readme = "README.md"
+license = "MIT"
+repository = "https://github.com/sreeise/from_as"
+description = "Traits to Read and write types that implement serde Serialize and deserialize to files "
 
 [dependencies]
 serde = { version = "1.0.117", features = ["derive"] }
