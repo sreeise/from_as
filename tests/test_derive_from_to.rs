@@ -50,6 +50,31 @@ pub fn test_derive_json() {
 }
 
 #[test]
+pub fn test_overwrite() {
+    let file = "./tests/overwrite.json";
+    let short = Field::new("short");
+    let longer = Field::new("longer");
+
+    // write longer; overwrite with short
+    longer.as_file(file).unwrap();
+    short.as_file(file).unwrap();
+    // if no truncate, then there will be an extra "}"
+    // the read fail with TrailingCharacter error.
+    let field_from_json = Field::from_file(file).unwrap();
+    assert_eq!(field_from_json.name, "short");
+    clean_up(file);
+
+    // write_pretty longer; overwrite with short
+    longer.as_file_pretty(file).unwrap();
+    short.as_file_pretty(file).unwrap();
+    // if no truncate, then there will be an extra "}"
+    // The read will fail with TrailingCharacter error.
+    let field_from_json = Field::from_file(file).unwrap();
+    assert_eq!(field_from_json.name, "short");
+    clean_up(file);
+}
+
+#[test]
 pub fn test_derive_yaml() {
     let file = "./tests/field.yaml";
     let field = Field::new("field");
