@@ -80,6 +80,7 @@ pub fn derive_as_file(input: proc_macro::TokenStream) -> proc_macro::TokenStream
                     let mut file = std::fs::OpenOptions::new()
                         .create(true)
                         .write(true)
+                        .truncate(true)
                         .open(&path)?;
 
                     match ext {
@@ -113,6 +114,7 @@ pub fn derive_as_file(input: proc_macro::TokenStream) -> proc_macro::TokenStream
                         let mut file = std::fs::OpenOptions::new()
                             .create(true)
                             .write(true)
+                            .truncate(true)
                             .open(&path)?;
 
                         match ext {
