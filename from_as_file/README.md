@@ -1,4 +1,7 @@
-[![Build Status](https://travis-ci.com/sreeise/from_as.svg?branch=master)](https://travis-ci.com/sreeise/from_as)
+
+
+# This crate is meant to be used in the [from_as](https://crates.io/crates/from_as) crate and may work as intended by itself.
+# Please use https://crates.io/crates/from_as
 
 # from_as_file
 Rust traits for reading and writing files for types that implement serde.
