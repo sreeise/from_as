@@ -1,6 +1,9 @@
-[![Build Status](https://travis-ci.com/sreeise/from_as.svg?branch=master)](https://travis-ci.com/sreeise/from_as)
+# Derive macros for the from_as crate
 
-# from_as_file
+# This crate is meant to be used as part of the [from_as](https://crates.io/crates/from_as) crate and may work as intended by itself.
+# Please use https://crates.io/crates/from_as
+
+# from_as
 Rust derive macros for reading and writing files for types that implement serde. The derive
 macros implement the from_as_file traits.
 
