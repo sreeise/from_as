@@ -1,6 +1,6 @@
 [package]
 name = "from_as"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["sreeise"]
 edition = "2018"
 readme = "README.md"
@@ -20,4 +20,4 @@ serde_json = "1.0.59"
 serde_yaml = "0.8.14"
 toml = "0.5"
 derive_from_as = {path = "derive_from_as"}
-from_as_file = "0.1.0"
+from_as_file = "0.1.1"

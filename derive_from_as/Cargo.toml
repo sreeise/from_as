@@ -1,6 +1,6 @@
 [package]
 name = "derive_from_as"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["sreeise"]
 edition = "2018"
 readme = "README.md"
@@ -18,4 +18,4 @@ serde_yaml = "0.8.14"
 syn = { version = "0.15.29", features = ["full", "extra-traits"] }
 quote = "0.6.11"
 toml = "0.5"
-from_as_file = "0.1.0"
+from_as_file = "0.1.1"
