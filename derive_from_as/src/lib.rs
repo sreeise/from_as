@@ -31,22 +31,15 @@ pub fn derive_from_file(input: proc_macro::TokenStream) -> proc_macro::TokenStre
             {
                 if let Some(ext) = path.as_ref().to_path_buf().extension() {
                     let ext = from_as_file::Ext::try_from(ext)?;
-                    let mut f = std::fs::File::open(path)?;
+                    let mut file = std::fs::File::open(path)?;
 
                     match ext {
-                        from_as_file::Ext::Yaml => {
-                            let t: Self = serde_yaml::from_reader(f)?;
-                            return Ok(t);
-                        }
-                        from_as_file::Ext::Json => {
-                            let t: Self = serde_json::from_reader(f)?;
-                            return Ok(t);
-                        }
+                        from_as_file::Ext::Yaml => Ok(serde_yaml::from_reader(file)?),
+                        from_as_file::Ext::Json => Ok(serde_json::from_reader(file)?),
                         from_as_file::Ext::Toml => {
                             let mut buffer = String::new();
-                            f.read_to_string(&mut buffer)?;
-                            let t: Self = toml::from_str(buffer.as_str())?;
-                            Ok(t)
+                            file.read_to_string(&mut buffer)?;
+                            Ok(toml::from_str(buffer.as_str())?)
                         }
                     }
                 } else {
