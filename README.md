@@ -1,12 +1,16 @@
 # from_as
 Rust traits and derive macros for reading and writing files for types that implement serde.
 
-The from_as_file crate provides two traits: FromFile and AsFile. FromFile is used for getting
-types from a file. AsFile is used for writing a types to a file.
+Available on [crates.io](https://crates.io/crates/from_as)
 
-The derive_from_as crate provides derive macros for these traits with the same names.
+```toml
+from_as = "0.1.1"
+```
 
-Currently, the only files types that can be used are json, yaml, and toml. 
+This crate provides two traits: FromFile and AsFile. FromFile is used for getting
+types from a file. AsFile is used for writing types to a file.
+
+The traits can be used for writing json, yaml, and toml files. 
 
 ### Example
 
