@@ -30,11 +30,12 @@ impl TryFrom<&OsStr> for Ext {
         match value.to_str() {
             Some("json") => Ok(Ext::Json),
             Some("yaml") => Ok(Ext::Yaml),
+            Some("yml") => Ok(Ext::Yaml),
             Some("toml") => Ok(Ext::Toml),
             _ => Err(std::io::Error::new(
                 std::io::ErrorKind::InvalidData,
                 format!(
-                    "Invalid extension. Valid extensions are json, yaml, and toml.  Got: {:#?}",
+                    "Invalid extension. Valid extensions are json, yaml, yml, and toml.  Got: {:#?}",
                     value
                 ),
             )),

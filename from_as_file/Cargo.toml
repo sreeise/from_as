@@ -9,7 +9,7 @@ repository = "https://github.com/sreeise/from_as"
 description = "Traits to Read and write types that implement serde Serialize and deserialize to files"
 
 [dependencies]
-serde = { version = "1.0.117", features = ["derive"] }
-serde_json = "1.0.59"
-serde_yaml = "0.8.14"
-toml = "0.5"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_yaml = "0.9.20"
+toml = "0.7.3"
