@@ -4,7 +4,7 @@ Rust traits and derive macros for reading and writing files for types that imple
 Available on [crates.io](https://crates.io/crates/from_as)
 
 ```toml
-from_as = "0.1.1"
+from_as = "0.2.0"
 ```
 
 This crate provides two traits: FromFile and AsFile. FromFile is used for getting
@@ -16,7 +16,8 @@ The traits can be used for writing json, yaml, and toml files.
 
 ```rust
     #[macro_use]
-    extern crate serde_derive;
+    extern crate serde;
+    
     use std::io::{Read, Write};
     use std::convert::TryFrom;
     use from_as::*;
